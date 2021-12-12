@@ -29,7 +29,6 @@ jobs:
         python-version: ${{matrix.python-version}}
         # cache: 'pip'
     - run: pip install -r requirements.txt
-    - run: pip test
 
     # - name: Cache PIP
     #   uses: actions/cache@v2
