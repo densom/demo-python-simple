@@ -22,8 +22,8 @@ jobs:
           - os: windows-latest
             TARGET: windows
             # OUT_FILE_NAME: hello.exe
-            CMD_BUILD: pyinstaller hello.${{matrix.TARGET}}.spec
-            ASSET_MIME: application/vnd.microsoft.portable-executable
+            CMD_BUILD: pyinstaller hello.windows.spec
+            # ASSET_MIME: application/vnd.microsoft.portable-executable
 
     steps:
     - uses: actions/checkout@v2
