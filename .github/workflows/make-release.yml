@@ -5,6 +5,7 @@ on:
   #   branches: [release]
   push:
     branches: [initial-setup]
+    tags: [v*]
 
 jobs:
   create-release-artifacts:
@@ -63,7 +64,7 @@ jobs:
       with:
         fetch-depth: 0
     
-    
+
     - name: Semantic versioning
       id: semver
       uses: paulhatch/semantic-version@v4.0.2
