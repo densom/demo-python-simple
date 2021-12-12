@@ -49,7 +49,7 @@ jobs:
         path: build\hello\hello.exe
         if-no-files-found: error
     - name: show dir listing
-      run: ls -R
+      run: ls -R ./dist
     
   create-release:
     runs-on: ubuntu-latest
