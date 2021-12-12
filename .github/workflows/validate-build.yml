@@ -11,4 +11,6 @@ jobs:
     steps:
 
     - name: First job
+      run: echo first job
     - name: Second job
+      run: echo second job
