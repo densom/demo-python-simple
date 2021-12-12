@@ -1,0 +1,8 @@
+name: Validate build
+
+on: 
+  push:
+
+jobs:
+  - name: First job
+  - name: Second job
