@@ -84,7 +84,7 @@ jobs:
         # change_path: "src"
         
         # Named version, will be used as suffix for name version tag
-        namespace: hello
+        # namespace: hello
         # Indicate whether short tags like 'v1' should be supported. If false only full
         # tags like 'v1.0.0' will be recognized.
         short_tags: true
