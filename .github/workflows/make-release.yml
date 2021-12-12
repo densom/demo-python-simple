@@ -1,0 +1,108 @@
+name: Make Release
+
+on:
+  pull_request:
+    branches: [release]
+
+jobs:
+  create-release-artifacts:
+
+    runs-on: windows-latest
+    
+    strategy:
+      matrix:
+        include:
+#           - os: macos-latest
+#             TARGET: macos
+#             CMD_BUILD: pyinstaller hello.spec
+#             OUT_FILE_NAME: hello.zip
+#             ASSET_MIME: application/zip
+          - os: windows-latest
+            TARGET: windows
+            CMD_BUILD: pyinstaller hello.windows.spec
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{matrix.python-version}}
+    - name: Cache PIP
+      uses: actions/cache@v2
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('requirements.txt') }}
+        
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pyinstaller
+        pip install -r requirements.txt
+        
+    - name: Build with pyinstaller for ${{matrix.TARGET}}
+      run: ${{matrix.CMD_BUILD}}
+
+    - name: show dir listing
+      run: ls -R ./dist
+      
+    - uses: actions/upload-artifact@v2
+      with:
+        name: hello-exe
+        path: dist\hello.exe
+        if-no-files-found: error
+
+    
+  create-release:
+    runs-on: ubuntu-latest
+    needs: create-release-artifacts
+    steps:
+    - name: Checkout Deep
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    
+
+    - name: Semantic versioning
+      id: semver
+      uses: paulhatch/semantic-version@v4.0.2
+      with:
+        # The prefix to use to identify tags
+        tag_prefix: "v"
+        # A string which, if present in a git commit, indicates that a change represents a
+        # major (breaking) change, supports regular expressions wrapped with '/'
+        major_pattern: "(MAJOR)"
+        # Same as above except indicating a minor change, supports regular expressions wrapped with '/'
+        minor_pattern: "(MINOR)"
+        # A string to determine the format of the version output
+        format: "${major}.${minor}.${patch}-${increment}"
+        # Optional path to check for changes. If any changes are detected in the path the
+        # 'changed' output will true. Enter multiple paths separated by spaces.
+        
+        # change_path: "src"
+        
+        # Named version, will be used as suffix for name version tag
+        # namespace: hello
+        # Indicate whether short tags like 'v1' should be supported. If false only full
+        # tags like 'v1.0.0' will be recognized.
+        short_tags: true
+        # If this is set to true, *every* commit will be treated as a new version.
+        bump_each_commit: false
+        
+    - name: demo output
+      run: echo and the version is ${{steps.semver.outputs.version}}
+
+    - uses: actions/download-artifact@v2
+      with:
+        name: hello-exe
+        path: dist/
+
+    - name: show dir listing
+      run: ls -R
+
+    - name: Create the actual tag
+      uses: ncipollo/release-action@v1
+      with:
+        tag: v${{steps.semver.outputs.version}}
+        commit: release
+        artifacts: "dist/hello.exe"
+        token: ${{ secrets.GITHUB_TOKEN }}
