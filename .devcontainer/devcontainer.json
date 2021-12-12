@@ -35,7 +35,8 @@
 		"ms-python.python",
 		"ms-python.vscode-pylance",
 		"codestackr.codestackr-theme",
-		"mhutchie.git-graph"
+		"mhutchie.git-graph",
+		"cschleiden.vscode-github-actions"
 	],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
