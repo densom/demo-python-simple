@@ -41,18 +41,10 @@ jobs:
     - name: demo output
       run: echo and the version is - ${{steps.semver.outputs.version}}
 
-    # - uses: actions/download-artifact@v2
-    #   with:
-    #     name: hello-exe
-    #     path: dist/
-
-    # - name: show dir listing
-    #   run: ls -R
-
-    # - name: Create the actual tag
-    #   uses: ncipollo/release-action@v1
-    #   with:
-    #     tag: ${{steps.semver.outputs.version}}
-    #     commit: make-release
-    #     artifacts: "dist/hello.exe"
-    #     token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Create the actual tag
+      uses: ncipollo/release-action@v1
+      with:
+        tag: ${{steps.semver.outputs.version}}
+        commit: semantic-version-troubleshooting
+        artifacts: "test.txt"
+        token: ${{ secrets.GITHUB_TOKEN }}
