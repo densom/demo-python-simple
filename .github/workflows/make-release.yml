@@ -21,8 +21,8 @@ jobs:
 #             ASSET_MIME: application/zip
           - os: windows-latest
             TARGET: windows
-            CMD_BUILD: pyinstaller hello.spec
             OUT_FILE_NAME: hello.exe
+            CMD_BUILD: pyinstaller hello.${{TARGET}}.spec
             ASSET_MIME: application/vnd.microsoft.portable-executable
 
     steps:
