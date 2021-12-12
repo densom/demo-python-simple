@@ -4,5 +4,11 @@ on:
   push:
 
 jobs:
-  - name: First job
-  - name: Second job
+  validate-build:
+
+    runs-on: windows-latest
+
+    steps:
+
+    - name: First job
+    - name: Second job
