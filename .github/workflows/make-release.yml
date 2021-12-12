@@ -100,11 +100,10 @@ jobs:
     - name: show dir listing
       run: ls -R
 
-    # - name: Create the actual tag
-    #   uses: ncipollo/release-action@v1
-    #   with:
-    #     tag: ${{steps.semver.outputs.version}}
-    #     commit: make-release
-    #     artifacts: "dist/hello.exe"
-    #     # bodyFile: "body.md"
-    #     token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Create the actual tag
+      uses: ncipollo/release-action@v1
+      with:
+        tag: ${{steps.semver.outputs.version}}
+        commit: make-release
+        artifacts: "dist/hello.exe"
+        token: ${{ secrets.GITHUB_TOKEN }}
