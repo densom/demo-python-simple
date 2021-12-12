@@ -17,8 +17,8 @@ jobs:
 #             CMD_BUILD: pyinstaller hello.spec
 #             OUT_FILE_NAME: hello.zip
 #             ASSET_MIME: application/zip
-          - os: windows-latest
-            target: windows
+          - os: ubuntu-latest
+            # target: windows
             python-version: '3.10'
 
     steps:
