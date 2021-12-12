@@ -106,6 +106,6 @@ jobs:
       uses: ncipollo/release-action@v1
       with:
         tag: v${{steps.semver.outputs.version}}
-        commit: make-release
+        commit: initial-setup
         artifacts: "dist/hello.exe"
         token: ${{ secrets.GITHUB_TOKEN }}
