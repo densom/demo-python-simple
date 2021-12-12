@@ -1,11 +1,8 @@
 name: Make Release
 
 on:
-  # pull_request:
-  #   branches: [release]
-  push:
-    branches: [initial-setup]
-    tags: [v*]
+  pull_request:
+    branches: [release]
 
 jobs:
   create-release-artifacts:
@@ -106,6 +103,6 @@ jobs:
       uses: ncipollo/release-action@v1
       with:
         tag: v${{steps.semver.outputs.version}}
-        commit: initial-setup
+        commit: release
         artifacts: "dist/hello.exe"
         token: ${{ secrets.GITHUB_TOKEN }}
