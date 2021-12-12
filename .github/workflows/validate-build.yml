@@ -3,15 +3,42 @@ name: Validate build
 on: 
   push:
   pull_request:
-  
+
 jobs:
   validate-build:
 
     runs-on: windows-latest
 
-    steps:
+    strategy:
+      matrix:
+        include:
+#           - os: macos-latest
+#             TARGET: macos
+#             CMD_BUILD: pyinstaller hello.spec
+#             OUT_FILE_NAME: hello.zip
+#             ASSET_MIME: application/zip
+          - os: windows-latest
+            TARGET: windows
 
-    - name: First job
-      run: echo first job
-    - name: Second job
-      run: echo second job
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{matrix.python-version}}
+
+    - name: Cache PIP
+      uses: actions/cache@v2
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('requirements.txt') }}
+        
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pyinstaller
+        pip install -r requirements.txt
+
+    - name: Unit tests
+      run: pytest
+    
